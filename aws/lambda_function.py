@@ -49,25 +49,111 @@ def lambda_handler(event, context):
         
         if path == '/' or path == '':
             base_url = "https://nujkmosb6l.execute-api.us-east-1.amazonaws.com"
-            return response(200, {
-                "mensaje": "API GraphWord operativa",
-                "estadisticas": {
-                    "nodos": G.number_of_nodes(),
-                    "aristas": G.number_of_edges()
-                },
-                "endpoints_disponibles": {
-                    "/nodos-alto-grado": "Top 10 productos más conectados",
-                    "/camino-minimo?origen=X&destino=Y": "Camino mínimo entre dos productos",
-                    "/nodos-aislados": "Productos sin conexiones",
-                    "/clusteres": "Comunidades de productos detectadas"
-                },
-                "ejemplos": {
-                    "nodos_alto_grado": f"{base_url}/nodos-alto-grado",
-                    "camino_minimo": f"{base_url}/camino-minimo?origen=pan&destino=leche",
-                    "nodos_aislados": f"{base_url}/nodos-aislados",
-                    "clusteres": f"{base_url}/clusteres"
-                }
-            })
+            html = f'''<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphWord API</title>
+    <style>
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        body {{ 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh; color: #fff; padding: 20px;
+        }}
+        .container {{ max-width: 900px; margin: 0 auto; }}
+        h1 {{ text-align: center; margin-bottom: 10px; font-size: 2.5em; }}
+        .subtitle {{ text-align: center; color: #8892b0; margin-bottom: 30px; }}
+        .stats {{ 
+            display: flex; justify-content: center; gap: 40px; margin-bottom: 40px;
+        }}
+        .stat {{ 
+            background: rgba(255,255,255,0.1); padding: 20px 40px; border-radius: 10px;
+            text-align: center;
+        }}
+        .stat-value {{ font-size: 2.5em; font-weight: bold; color: #64ffda; }}
+        .stat-label {{ color: #8892b0; }}
+        .endpoints {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }}
+        .endpoint {{ 
+            background: rgba(255,255,255,0.05); border-radius: 10px; padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s;
+        }}
+        .endpoint:hover {{ background: rgba(255,255,255,0.1); transform: translateY(-2px); }}
+        .endpoint h3 {{ color: #64ffda; margin-bottom: 10px; }}
+        .endpoint p {{ color: #8892b0; font-size: 0.9em; margin-bottom: 15px; }}
+        .btn {{ 
+            display: inline-block; background: #64ffda; color: #1a1a2e; padding: 10px 20px;
+            border-radius: 5px; text-decoration: none; font-weight: bold; transition: all 0.3s;
+        }}
+        .btn:hover {{ background: #4fd1c5; }}
+        .form-group {{ margin-bottom: 10px; }}
+        .form-group input {{ 
+            padding: 8px 12px; border-radius: 5px; border: none; width: 100%;
+            background: rgba(255,255,255,0.1); color: #fff;
+        }}
+        .form-group input::placeholder {{ color: #8892b0; }}
+        footer {{ text-align: center; margin-top: 40px; color: #8892b0; font-size: 0.9em; }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>GraphWord API</h1>
+        <p class="subtitle">Sistema de Analisis de Grafos de Productos</p>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">{G.number_of_nodes()}</div>
+                <div class="stat-label">Nodos</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">{G.number_of_edges()}</div>
+                <div class="stat-label">Aristas</div>
+            </div>
+        </div>
+        
+        <div class="endpoints">
+            <div class="endpoint">
+                <h3>Top Conectividad</h3>
+                <p>Los 10 productos con mas conexiones en el grafo</p>
+                <a href="{base_url}/nodos-alto-grado" class="btn">Ver Top 10</a>
+            </div>
+            
+            <div class="endpoint">
+                <h3>Camino Minimo</h3>
+                <p>Encuentra la ruta mas corta entre dos productos</p>
+                <form action="{base_url}/camino-minimo" method="get">
+                    <div class="form-group"><input type="text" name="origen" placeholder="Producto origen (ej: pan)"></div>
+                    <div class="form-group"><input type="text" name="destino" placeholder="Producto destino (ej: leche)"></div>
+                    <button type="submit" class="btn">Buscar Camino</button>
+                </form>
+            </div>
+            
+            <div class="endpoint">
+                <h3>Nodos Aislados</h3>
+                <p>Productos que no tienen conexiones con otros</p>
+                <a href="{base_url}/nodos-aislados" class="btn">Ver Aislados</a>
+            </div>
+            
+            <div class="endpoint">
+                <h3>Clusters</h3>
+                <p>Grupos de productos relacionados entre si</p>
+                <a href="{base_url}/clusteres" class="btn">Ver Clusters</a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>GraphWord - Tecnologias de Sistemas para Ciencia de Datos</p>
+            <p>API desplegada en AWS Lambda + API Gateway</p>
+        </footer>
+    </div>
+</body>
+</html>'''
+            return {
+                'statusCode': 200,
+                'headers': {'Content-Type': 'text/html; charset=utf-8'},
+                'body': html
+            }
         
         elif path == '/nodos-alto-grado':
             top = sorted(dict(G.degree()).items(), key=lambda x: x[1], reverse=True)[:10]
