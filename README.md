@@ -19,6 +19,20 @@ A partir de un dataset de listas de compra, el sistema construye un grafo donde:
 
 ---
 
+##  Interfaz Web Gráfica
+
+El proyecto cuenta con una **interfaz web moderna integrada** directamente en el endpoint raíz de la API. No requiere instalación de frontend adicional.
+
+👉 **[Acceder a la Interfaz Web](https://nujkmosb6l.execute-api.us-east-1.amazonaws.com/)**
+
+Características de la interfaz:
+- **Visualización de estadísticas** en tiempo real (nodos y aristas)
+- **Formularios interactivos** para calcular caminos mínimos y buscar por grado
+- **Acceso directo** a todos los endpoints (Clusters, Top conectividad, etc.)
+- **Diseño responsive** y modo oscuro
+
+---
+
 ##  Funcionalidades
 
 ### 1. Camino Mínimo
