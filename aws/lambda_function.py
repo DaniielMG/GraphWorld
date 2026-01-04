@@ -49,6 +49,10 @@ def lambda_handler(event, context):
         
         if path == '/' or path == '':
             base_url = "https://nujkmosb6l.execute-api.us-east-1.amazonaws.com"
+            lista_nodos = sorted(list(G.nodes()))
+            datalist_options = "".join([f'<option value="{n}">' for n in lista_nodos])
+            lista_html = "".join([f'<span class="badge">{n}</span>' for n in lista_nodos])
+            
             html = f'''<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -95,8 +99,29 @@ def lambda_handler(event, context):
             background: rgba(255,255,255,0.1); color: #fff;
         }}
         .form-group input::placeholder {{ color: #8892b0; }}
+        
+        /* Estilos nuevos para la lista de productos */
+        .products-section {{ margin-top: 40px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); }}
+        .products-header {{ cursor: pointer; display: flex; justify-content: space-between; align-items: center; }}
+        .products-header h3 {{ color: #64ffda; }}
+        .products-content {{ margin-top: 15px; max-height: 200px; overflow-y: auto; display: none; flex-wrap: wrap; gap: 5px; }}
+        .badge {{ background: rgba(100, 255, 218, 0.1); color: #64ffda; padding: 2px 8px; border-radius: 12px; font-size: 0.8em; border: 1px solid rgba(100, 255, 218, 0.3); }}
+        
         footer {{ text-align: center; margin-top: 40px; color: #8892b0; font-size: 0.9em; }}
     </style>
+    <script>
+        function toggleProducts() {{
+            var content = document.getElementById("products-content");
+            var icon = document.getElementById("toggle-icon");
+            if (content.style.display === "flex") {{
+                content.style.display = "none";
+                icon.innerHTML = "▼";
+            }} else {{
+                content.style.display = "flex";
+                icon.innerHTML = "▲";
+            }}
+        }}
+    </script>
 </head>
 <body>
     <div class="container">
@@ -129,8 +154,8 @@ def lambda_handler(event, context):
                     <p>Ruta mas corta entre dos productos.</p>
                 </div>
                 <form action="{base_url}/camino-minimo" method="get">
-                    <div class="form-group"><input type="text" name="origen" placeholder="Origen (ej: pan)" required></div>
-                    <div class="form-group"><input type="text" name="destino" placeholder="Destino (ej: leche)" required></div>
+                    <div class="form-group"><input type="text" name="origen" list="productos" placeholder="Origen (ej: pan)" required></div>
+                    <div class="form-group"><input type="text" name="destino" list="productos" placeholder="Destino (ej: leche)" required></div>
                     <button type="submit" class="btn">Buscar Camino</button>
                 </form>
             </div>
@@ -141,8 +166,8 @@ def lambda_handler(event, context):
                     <p>Todas las rutas posibles (max 3 saltos).</p>
                 </div>
                 <form action="{base_url}/todos-los-caminos" method="get">
-                    <div class="form-group"><input type="text" name="origen" placeholder="Origen (ej: pan)" required></div>
-                    <div class="form-group"><input type="text" name="destino" placeholder="Destino (ej: leche)" required></div>
+                    <div class="form-group"><input type="text" name="origen" list="productos" placeholder="Origen (ej: pan)" required></div>
+                    <div class="form-group"><input type="text" name="destino" list="productos" placeholder="Destino (ej: leche)" required></div>
                     <button type="submit" class="btn">Ver Rutas</button>
                 </form>
             </div>
@@ -180,6 +205,20 @@ def lambda_handler(event, context):
                     <p>Comunidades de productos relacionados.</p>
                 </div>
                 <a href="{base_url}/clusteres" class="btn">Ver Clusters</a>
+            </div>
+        </div>
+        
+        <datalist id="productos">
+            {datalist_options}
+        </datalist>
+
+        <div class="products-section">
+            <div class="products-header" onclick="toggleProducts()">
+                <h3>📦 Ver Todos los Productos ({len(lista_nodos)})</h3>
+                <span id="toggle-icon">▼</span>
+            </div>
+            <div class="products-content" id="products-content">
+                {lista_html}
             </div>
         </div>
         
