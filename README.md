@@ -4,7 +4,7 @@ Sistema de análisis de co-ocurrencias de productos basado en teoría de grafos,
 
 ##  Descripción del Proyecto
 
-GraphWord es una aplicación de **Ciencia de Datos** que analiza patrones de compra de usuarios para identificar relaciones entre productos. Utiliza algoritmos de teoría de grafos para descubrir:
+GraphWord es una aplicación de la asignatura **Tecnologías de Servicios para Ciencia de Datos** de la carrera **Ciencia e Ingeniería de Datos** que analiza patrones de compra de usuarios para identificar relaciones entre productos. Utiliza algoritmos de teoría de grafos para descubrir:
 - **Conexiones ocultas** entre productos que se compran juntos
 - **Caminos mínimos** entre diferentes productos
 - **Clusters** de productos relacionados
@@ -23,7 +23,7 @@ A partir de un dataset de listas de compra, el sistema construye un grafo donde:
 
 El proyecto cuenta con una **interfaz web moderna integrada** directamente en el endpoint raíz de la API. No requiere instalación de frontend adicional.
 
-👉 **[Acceder a la Interfaz Web](https://nujkmosb6l.execute-api.us-east-1.amazonaws.com/)**
+ **[Acceder a la Interfaz Web](https://nujkmosb6l.execute-api.us-east-1.amazonaws.com/)**
 
 Características de la interfaz:
 - **Visualización de estadísticas** en tiempo real (nodos y aristas)
@@ -191,3 +191,9 @@ GraphWorld/
 - **AWS Lambda** - Computación serverless
 - **AWS S3** - Almacenamiento en la nube
 - **AWS API Gateway** - Exposición de APIs HTTP
+
+---
+
+## Autores del proyecto
+- **Daniel Medina González**
+- **Ivana Augustíneková**
