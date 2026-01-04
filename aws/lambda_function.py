@@ -50,7 +50,7 @@ def lambda_handler(event, context):
         if path == '/' or path == '':
             base_url = "https://nujkmosb6l.execute-api.us-east-1.amazonaws.com"
             return response(200, {
-                "mensaje": "🚀 API GraphWord operativa",
+                "mensaje": "API GraphWord operativa",
                 "estadisticas": {
                     "nodos": G.number_of_nodes(),
                     "aristas": G.number_of_edges()
