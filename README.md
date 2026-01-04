@@ -27,7 +27,8 @@ El proyecto cuenta con una **interfaz web moderna integrada** directamente en el
 
 Características de la interfaz:
 - **Visualización de estadísticas** en tiempo real (nodos y aristas)
-- **Formularios interactivos** para calcular caminos mínimos y buscar por grado
+- **Formularios interactivos** con **autocompletado de productos**
+- **Lista desplegable** con todos los productos disponibles en el grafo
 - **Acceso directo** a todos los endpoints (Clusters, Top conectividad, etc.)
 - **Diseño responsive** y modo oscuro
 
