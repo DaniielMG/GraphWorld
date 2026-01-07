@@ -107,20 +107,21 @@ El proyecto utiliza los siguientes servicios de AWS (dentro del **Free Tier**):
 | **Lambda Layers** | Dependencias | Layers de Pandas (AWS SDK) y NetworkX (custom) |
 
 ### Diagrama de Arquitectura
-
+```mermaid
+graph LR
+    User((Usuario / Browser)) -->|Request HTTP| APIGW[AWS API Gateway]
+    APIGW -->|Trigger| Lambda[AWS Lambda <br/> Python + NetworkX]
+    Lambda -->|1. Carga Dataset| S3[(Amazon S3 <br/> CSV Data)]
+    Lambda -->|2. Construye Grafo| NX{NetworkX Engine}
+    NX -->|3. Analiza| Result[Resultados / JSON]
+    Result -->|Response| User
+    
+    subgraph "Cloud Provider (AWS)"
+    APIGW
+    Lambda
+    S3
+    end
 ```
-┌─────────────┐     ┌─────────────────┐     ┌─────────────┐
-│   Usuario   │────▶│  API Gateway    │────▶│   Lambda    │
-│  (Browser)  │     │  (HTTP API)     │     │ (Python)    │
-└─────────────┘     └─────────────────┘     └──────┬──────┘
-                                                   │
-                                                   ▼
-                                            ┌─────────────┐
-                                            │     S3      │
-                                            │  (Dataset)  │
-                                            └─────────────┘
-```
-
 ---
 
 ##  Endpoints de la API
