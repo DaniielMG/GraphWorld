@@ -22,7 +22,7 @@ opcion = st.sidebar.selectbox("Seleccione operación",
     ["Camino Mínimo", "Clusters", "Top Conectividad", "Nodos Aislados"])
 
 if opcion == "Camino Mínimo":
-    st.subheader("🔗 Calcular Camino Mínimo [cite: 52]")
+    st.subheader(" Calcular Camino Mínimo [cite: 52]")
     col1, col2 = st.columns(2)
     with col1:
         u = st.selectbox("Producto Origen", nodos)
@@ -37,7 +37,7 @@ if opcion == "Camino Mínimo":
             st.error("No existe conexión entre estos nodos.")
 
 elif opcion == "Top Conectividad":
-    st.subheader("🔝 Nodos con Alto Grado de Conectividad ")
+    st.subheader(" Nodos con Alto Grado de Conectividad ")
     top_nodos = analizador.nodos_alto_grado()
     df_top = pd.DataFrame(top_nodos, columns=['Producto', 'Conexiones'])
     st.bar_chart(df_top.set_index('Producto'))
