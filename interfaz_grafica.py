@@ -32,7 +32,7 @@ if opcion == "Camino Mínimo":
     if st.button("Calcular Ruta"):
         try:
             camino = analizador.camino_minimo(u, v)
-            st.success(f"Camino encontrado: {' ➡️ '.join(camino)}")
+            st.success(f"Camino encontrado: {' '.join(camino)}")
         except:
             st.error("No existe conexión entre estos nodos.")
 
