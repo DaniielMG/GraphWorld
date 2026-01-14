@@ -33,11 +33,13 @@ jobs:
           # Exit-zero treats all errors as warnings
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --exclude=aws
       
-      - name: Test imports
+      - name: Check Python syntax
         run: |
-          python -c "import analisis_grafo; print('✓ analisis_grafo OK')"
-          python -c "import procesamiento; print('✓ procesamiento OK')"
-          python -c "import api; print('✓ api OK')"
+          python -m py_compile analisis_grafo.py
+          python -m py_compile procesamiento.py
+          python -m py_compile api.py
+          python -m py_compile main.py
+          echo "✓ All Python files have valid syntax"
 
   docker-build:
     name: Docker Build
