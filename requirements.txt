@@ -1,10 +1,4 @@
-<<<<<<< HEAD
 fastapi
 uvicorn
 pandas
-=======
-fastapi
-uvicorn
-pandas
->>>>>>> 578b0a74ddcf2c8eb15d54920d3bd461a1441912
 networkx
